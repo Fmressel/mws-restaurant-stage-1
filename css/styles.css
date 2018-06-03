@@ -42,10 +42,13 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
+}
+#footer p {
+  margin: 0;
+  padding: 25px;
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
-  padding: 25px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -194,22 +197,15 @@ nav h1 a {
   width: 100%;
   z-index: 1000;
 }
-.inside #map-container {
-  background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
-}
 .inside #map {
   background-color: #ccc;
   height: 100%;
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
-  position: absolute;
+  width: 50%;
+}
+#restaurant-info {
   width: 50%;
 }
 #restaurant-name {
@@ -245,7 +241,6 @@ nav h1 a {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -280,11 +275,39 @@ nav h1 a {
 }
 
 /* ====================== Breakpoints ====================== */
+@media screen and (min-width: 600px) {
+  .inside #map-container {
+    background: blue none repeat scroll 0 0;
+    height: 87%;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #breadcrumb, #restaurant-info, #restaurant-container, #reviews-container, .inside #footer {
+    width: initial;
+  }
+
+  #restaurant-container, #reviews-container {
+    padding: 1rem;
+  }
+
+  .inside #map {
+    height: 25rem;
+  }
+}
+
 @media screen and (max-width: 400px) {
   nav h1 a {
     font-size: 0.8rem;
     font-weight: 100;
     letter-spacing: 7px;
   }
-}
 
+  #breadcrumb {
+    width: 100%;
+  }
+}
