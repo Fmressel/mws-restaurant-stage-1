@@ -221,7 +221,7 @@ nav h1 a {
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
-  font-size: 20pt;
+  font-size: 1.7rem;
   font-weight: 200;
   letter-spacing: 0;
   margin: 15px 0 30px;
@@ -257,10 +257,9 @@ nav h1 a {
 }
 #reviews-container h2 {
   color: #f58500;
-  font-size: 24pt;
+  font-size: 2rem;
   font-weight: 300;
   letter-spacing: -1px;
-  padding-bottom: 1pt;
 }
 #reviews-list {
   margin: 0;
@@ -285,7 +284,7 @@ nav h1 a {
 }
 
 /* ====================== Breakpoints ====================== */
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 601px) {
   .inside #map-container {
     background: blue none repeat scroll 0 0;
     height: 87%;
@@ -297,16 +296,41 @@ nav h1 a {
 }
 
 @media screen and (max-width: 600px) {
+  main {
+    padding-top: 131.5px;
+  }
+
+  header {
+    box-shadow: 0 0 2px 0 black;
+  }
+
   #breadcrumb, #restaurant-info, #restaurant-container, #reviews-container, .inside #footer {
     width: initial;
   }
 
-  #restaurant-container, #reviews-container {
+  #restaurant-container {
+    padding: 0 1rem 1rem;
+  }
+  #reviews-container {
     padding: 1rem;
   }
 
+  #restaurant-name {
+    margin: 15px 0;
+  }
+
+  #restaurant-img, #restaurant-cuisine {
+    width: 100%;
+  }
+
   .inside #map {
-    height: 25rem;
+    height: 14rem;
+  }
+
+  #reviews-list li {
+    width: initial;
+    margin: 0;
+    padding: 20px;
   }
 }
 
@@ -318,6 +342,14 @@ nav h1 a {
   }
 
   #breadcrumb {
-    width: 100%;
+    width: initial;
+    padding: 1rem;
+  }
+
+  #restaurant-name {
+    font-size: 1.2rem;
+  }
+  #reviews-container h2 {
+    font-size: 1.5rem;
   }
 }
