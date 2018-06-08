@@ -296,7 +296,7 @@ nav h1 a {
 }
 
 @media screen and (max-width: 600px) {
-  main {
+  .inside main {
     padding-top: 131.5px;
   }
 
