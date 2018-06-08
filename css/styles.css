@@ -143,7 +143,7 @@ nav h1 a {
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(240px, auto));
   grid-gap: 1rem;
   background-color: #f3f3f3;
   list-style: outside none none;
