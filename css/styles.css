@@ -323,7 +323,7 @@ nav h1 a {
     width: 100%;
   }
 
-  .inside #map {
+  #map {
     height: 14rem;
   }
 
