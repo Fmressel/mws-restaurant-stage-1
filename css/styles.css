@@ -327,6 +327,7 @@ nav h1 a {
     right: 0;
     top: 80px;
     width: 50%;
+    height: calc(100vh - 80px);
   }
 }
 
