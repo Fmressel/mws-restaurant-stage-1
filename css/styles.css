@@ -311,6 +311,10 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+#restaurant-hours td:first-of-type {
+  font-weight: bold;
+  color: #353535;
+}
 
 /* ====================== Breakpoints ====================== */
 @media screen and (min-width: 801px) {
@@ -358,7 +362,18 @@ nav h1 a {
 
   #reviews-list li {
     width: initial;
-    margin: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  #restaurant-hours td {
+    font-size: 0.8rem;
+    float: left;
+    clear: both;
+  }
+
+  #restaurant-hours td:last-of-type {
+    border-bottom: 2px solid black;
+    margin-bottom: 0.5rem;
   }
 }
 
