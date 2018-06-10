@@ -41,7 +41,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #maincontent {
   background-color: #f5f5f5;
-  min-height: 100%;
+  min-height: 100vh;
 }
 #footer {
   background-color: #444;
