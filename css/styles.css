@@ -159,6 +159,8 @@ nav h1 a {
   text-align: left;
   max-width: 270px;
   justify-self: center;
+  border-radius: 5px;
+  overflow: hidden;
 }
 #restaurants-list .restaurant-info {
   grid-row-start: 2;
