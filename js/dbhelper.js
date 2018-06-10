@@ -1,4 +1,13 @@
 /**
+ * Initialize service worker
+ */
+if(navigator.serviceWorker) {
+  console.log('Installing service worker');
+  navigator.serviceWorker.register('sw.js')
+    .catch(err => console.log(err));
+}
+
+/**
  * Common database helper functions.
  */
 class DBHelper {
