@@ -168,12 +168,12 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   infoContainer.append(address);
 
+  li.append(infoContainer);
+
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  infoContainer.append(more);
-
-  li.append(infoContainer);
+  li.append(more);
 
   return li
 }

@@ -151,24 +151,25 @@ nav h1 a {
   padding: 30px 15px 60px;
 }
 #restaurants-list li {
+  display: grid;
+  grid-template-rows: 1fr 80px 60px;
   background-color: #fff;
-  border: 2px solid #ccc;
+  box-shadow: 0 0px 6px 0px #8080804d;
   font-family: Arial,sans-serif;
-  min-height: 380px;
   text-align: left;
   max-width: 270px;
   justify-self: center;
 }
 #restaurants-list .restaurant-info {
+  grid-row-start: 2;
+  grid-row-end: 4;
   padding: 0.5rem;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
+  width: 100%;
   margin: 0;
-  max-width: 100%;
-  min-height: 248px;
-  min-width: 100%;
 }
 #restaurants-list li h1 {
   color: #f18200;
@@ -185,13 +186,12 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
+  grid-row-start: 4;
+  grid-row-end: 4;
   background-color: orange;
-  box-shadow: 0 3px 0 0 #eee;
   color: #fff;
-  display: inline-block;
-  font-size: 10pt;
-  margin: 15px 0 0;
-  padding: 8px 30px 10px;
+  font-size: 0.8rem;
+  padding: 12px 0;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
