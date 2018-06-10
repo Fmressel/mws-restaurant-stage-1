@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400');
 /* CSS Document */
 
-body,td,th,p{
+body,td,th,p,time{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 10pt;
   color: #333;
@@ -272,19 +272,48 @@ nav h1 a {
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
   position: relative;
   width: 85%;
 }
-#reviews-list li p {
+#reviews-list p {
+  padding: 0 20px;
   margin: 0 0 10px;
+}
+#reviews-list li div {
+  margin: 0 0 10px;
+  padding: 10px;
+  background-color: #252831;
+}
+#reviews-list .name, #reviews-list time {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+}
+#reviews-list .name {
+  color: white;
+  text-align: left;
+}
+#reviews-list time {
+  color: grey;
+  text-align: right;
+}
+#reviews-list .rating {
+  float: right;
+  margin: 20px;
+  padding: 0 10px;
+  line-height: 2rem;
+  font-weight: bold;
+  background-color: #e95e00;
+  color: white;
 }
 #restaurant-hours td {
   color: #666;
 }
 
 /* ====================== Breakpoints ====================== */
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 801px) {
   .inside #map-container {
     background: blue none repeat scroll 0 0;
     height: 87%;
@@ -295,7 +324,7 @@ nav h1 a {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .inside main {
     padding-top: 131.5px;
   }
@@ -323,14 +352,13 @@ nav h1 a {
     width: 100%;
   }
 
-  #map {
+  .inside #map, #map {
     height: 14rem;
   }
 
   #reviews-list li {
     width: initial;
     margin: 0;
-    padding: 20px;
   }
 }
 
