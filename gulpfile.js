@@ -4,6 +4,8 @@ const gulp = require('gulp'),
 gulp.task('default', () => {
     console.log('Starting server...');
     browserSync.init({
+        watch: true,
+        port: 8000,
         server: {
             baseDir: "./"
         }
