@@ -1,4 +1,4 @@
-const CACHE_ID = 'cache-v1';
+const CACHE_ID = 'cache-v2';
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_ID).then(cache => {
@@ -12,7 +12,7 @@ self.addEventListener('fetch', event => {
         url = new URL(request.url);
 
   console.log(url.origin, location.origin);
-  if(url.origin !== location.origin) return;
+  if(url.origin !== 'http://localhost:1337' && url.origin !== location.origin) return;
 
   event.respondWith(
     caches.match(url).then(res => {
