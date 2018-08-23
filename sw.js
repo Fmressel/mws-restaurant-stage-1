@@ -12,7 +12,7 @@ self.addEventListener('fetch', event => {
         url = new URL(request.url);
 
   console.log(url.origin, location.origin);
-  if(url.origin !== 'http://localhost:1337' && url.origin !== location.origin) return;
+  if(url.origin !== location.origin) return;
 
   event.respondWith(
     caches.match(url).then(res => {

@@ -1,5 +1,13 @@
+const DATABASE_VERSION = 1;
+let idbPromise = idb.open('restaurants', DATABASE_VERSION, (upgradeDB) => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore('response-data');
+  }
+});
+
 /**
- * Initialize service worker
+ * Initialize service worker and idbhelper
  */
 if(navigator.serviceWorker) {
   console.log('Installing service worker');
@@ -24,26 +32,59 @@ class DBHelper {
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
+  static fetchRestaurants() {
+    return fetch(DBHelper.DATABASE_URL).then((response) => {
+      if(response.status === 200) {
+        return response.json().then((json) => json);
+      } else {
+        return response;
+      }
+    }).catch(error => error);
+  }
+
+  static getRestaurants(callback) {
       const errorReporter = (status) => {
         const error = `Request failed. Returned status of ${status}`;
         callback(error, null);
       }
 
-      fetch(DBHelper.DATABASE_URL).then((response) => {
-        if(response.status === 200) {
-          response.json().then((json) => callback(null, json));
+      idbPromise.then((db) => {
+        const transaction = db.transaction('response-data'),
+          store = transaction.objectStore('response-data');
+
+        return store.get('1337-json');
+      }).then((storedJson) => {
+        console.log('storedJson', storedJson);
+        if(!storedJson) {
+          DBHelper.fetchRestaurants().then((fetchedJson) => {
+            console.log('fetchedJson', fetchedJson);
+
+            if (fetchedJson.status) {
+              errorReporter(fetchedJson.status);
+              return;
+            }
+
+            idbPromise.then((db) => {
+              const transaction = db.transaction('response-data', 'readwrite'),
+                store = transaction.objectStore('response-data');
+
+              store.put(fetchedJson, '1337-json');
+              return transaction.complete;
+            }).then(() => console.log('Added fetched json data to database!'));
+
+            callback(null, fetchedJson);
+          });
         } else {
-          errorReporter(response.status);
+          callback(null, storedJson);
         }
-      }).catch(error => errorReporter(error.status));
+      });
     };
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -62,7 +103,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -78,7 +119,7 @@ class DBHelper {
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -94,7 +135,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -115,7 +156,7 @@ class DBHelper {
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       console.log('restaurants', restaurants);
       if (error) {
         callback(error, null);
@@ -134,7 +175,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    DBHelper.getRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
