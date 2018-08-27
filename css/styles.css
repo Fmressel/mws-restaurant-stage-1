@@ -118,6 +118,11 @@ nav h1 a {
   background-color: #ccc;
 }
 /* ====================== Restaurant Filtering ====================== */
+.select-container {
+  display: inline-block;
+  margin: 10px 10px 0;
+  width: 200px;
+}
 #filter-options {
   padding: 1rem;
   background-color: #3397DB;
@@ -137,9 +142,12 @@ nav h1 a {
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px 10px 0;
   padding: 0 10px;
-  width: 200px;
+  width: 100%;
+}
+#filter-options label {
+  display: block;
+  color: black;
 }
 #filter-options select:focus {
   background-color: #3e80cf;
