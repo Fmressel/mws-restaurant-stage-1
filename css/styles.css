@@ -120,7 +120,7 @@ nav h1 a {
 }
 #map:empty {
   visibility: hidden;
-  height: 0px;
+  height: 0;
   transition: all 0.2s ease-in-out;
 }
 /* ====================== Restaurant Filtering ====================== */
@@ -234,6 +234,9 @@ nav h1 a {
   height: 100%;
   width: 100%;
 }
+.inside #map:empty {
+  height: 0;
+}
 .inside #footer {
   width: 50%;
 }
@@ -341,7 +344,6 @@ nav h1 a {
 /* ====================== Breakpoints ====================== */
 @media screen and (min-width: 801px) {
   .inside #map-container {
-    background: blue none repeat scroll 0 0;
     height: 87%;
     position: fixed;
     right: 0;

@@ -1,23 +1,40 @@
 let restaurant;
 var map;
 
-/**
- * Initialize Google map, called from HTML.
- */
-window.initMap = () => {
+document.addEventListener('DOMContentLoaded', (event) => {
   fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
+    if(error) {
       console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      return;
     }
-  });
+    fillBreadcrumb();
+  })
+  setTimeout(addMap, 1000);
+});
+
+addMap = () => {
+  const map = document.createElement('script');
+  map.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap';
+
+  document.body.append(map);
+
+  /**
+   * Initialize Google map, called from HTML.
+   */
+  window.initMap = () => {
+    fetchRestaurantFromURL((error, restaurant) => {
+      if (error) { // Got an error!
+        console.error(error);
+      } else {
+        self.map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: restaurant.latlng,
+          scrollwheel: false
+        });
+        DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      }
+    });
+  }
 }
 
 /**
