@@ -3,6 +3,11 @@
   "short_name": "Restaurants",
   "start_url": "/",
   "scope": "/",
+  "icons": [{
+    "src": "manifest_imgs/app_logo.jpg",
+    "sizes": "512x512",
+    "type": "image/jpg"
+  }],
   "theme_color": "#c92f01",
   "background_color": "#252831",
   "display": "fullscreen"
