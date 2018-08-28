@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
   updateRestaurants();
-  setTimeout(addMap, 1000);
+  setTimeout(addMap, 1200);
 });
 
 addMap = () => {

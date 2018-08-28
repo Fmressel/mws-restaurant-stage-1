@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
     fillBreadcrumb();
   })
-  setTimeout(addMap, 1000);
+  setTimeout(addMap, 1200);
 });
 
 addMap = () => {
