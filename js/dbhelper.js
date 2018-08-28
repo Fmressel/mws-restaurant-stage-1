@@ -199,7 +199,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/dist/img/${restaurant.id}.jpg`);
+    return (`/dist/img/${restaurant.id}-small.jpg`);
   }
 
   /**
