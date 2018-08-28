@@ -10,6 +10,15 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
+  setTimeout(addMap, 1000);
+});
+
+addMap = () => {
+  const map = document.createElement('script');
+  map.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap';
+
+  document.body.append(map);
 
   /**
    * Initialize Google map, called from HTML.
@@ -26,7 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
     updateRestaurants();
   }
-});
+}
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -100,6 +109,7 @@ updateRestaurants = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
+      console.log('--hello--');
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
     }
@@ -129,7 +139,9 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
+  if(map) {
+    addMarkersToMap();
+  }
 }
 
 /**

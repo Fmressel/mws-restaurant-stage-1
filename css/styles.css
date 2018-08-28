@@ -116,6 +116,12 @@ nav h1 a {
   height: 400px;
   width: 100%;
   background-color: #ccc;
+  transition: all 0.2s ease-in-out;
+}
+#map:empty {
+  visibility: hidden;
+  height: 0px;
+  transition: all 0.2s ease-in-out;
 }
 /* ====================== Restaurant Filtering ====================== */
 .select-container {
