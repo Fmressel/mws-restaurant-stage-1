@@ -10,7 +10,6 @@ let idbPromise = idb.open('restaurants', DATABASE_VERSION, (upgradeDB) => {
  * Initialize service worker and idbhelper
  */
 if(navigator.serviceWorker) {
-  console.log('Installing service worker');
   navigator.serviceWorker.register('sw.js')
     .catch(err => console.log(err));
 }
@@ -54,11 +53,8 @@ class DBHelper {
 
         return store.get('1337-json');
       }).then((storedJson) => {
-        console.log('storedJson', storedJson);
         if(!storedJson) {
           DBHelper.fetchRestaurants().then((fetchedJson) => {
-            console.log('fetchedJson', fetchedJson);
-
             if (fetchedJson.status) {
               errorReporter(fetchedJson.status);
               return;
@@ -70,7 +66,7 @@ class DBHelper {
 
               store.put(fetchedJson, '1337-json');
               return transaction.complete;
-            }).then(() => console.log('Added fetched json data to database!'));
+            });
 
             callback(null, fetchedJson);
           });
@@ -157,7 +153,6 @@ class DBHelper {
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
     DBHelper.getRestaurants((error, restaurants) => {
-      console.log('restaurants', restaurants);
       if (error) {
         callback(error, null);
       } else {
