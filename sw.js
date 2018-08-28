@@ -2,7 +2,13 @@ const CACHE_ID = 'cache-v2';
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_ID).then(cache => {
-    return cache.addAll(['/']);
+    return cache.addAll([
+      '/',
+      'css/styles.css',
+      'js/dbhelper.js',
+      'js/idb.js',
+      'js/main.js'
+    ]);
   }));
   console.log('Service Worker installed!');
 });
