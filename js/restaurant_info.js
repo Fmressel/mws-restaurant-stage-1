@@ -20,16 +20,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
       comments: form[2].value
     }
 
-    fetch('http://localhost:1337/reviews/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+    function postReview() {
+      fetch('http://localhost:1337/reviews/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(() => {
+        window.location.reload(false);
+      })
+      .catch(error => {
+        if(error.message === 'Failed to fetch') {
+          setTimeout(postReview, 10000);
+        }
+      });
+    };
 
+    postReview();
     event.preventDefault();
-    window.location.reload(false);
   });
 
   setTimeout(addMap, 1200);
