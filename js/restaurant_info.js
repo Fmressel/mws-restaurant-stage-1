@@ -1,15 +1,25 @@
 let restaurant;
 let reviews;
+let offlineReview;
 var map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchRestaurantFromURL((error, restaurant) => {
+  fetchRestaurantFromURL((error, fetchedRestaurant) => {
     if(error) {
       console.error(error);
       return;
     }
+
+    DBHelper.getOfflineReviewByRestaurantId(fetchedRestaurant.id, (error, review) => {
+      if(!error && review) {
+        offlineReview = review;
+        postReview();
+      }
+    });
+
     fillBreadcrumb();
   });
+
 
   document.getElementById('review-form').addEventListener('submit', event => {
     const form = event.target;
@@ -20,25 +30,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
       comments: form[2].value
     }
 
-    function postReview() {
-      fetch('http://localhost:1337/reviews/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
-      .then(() => {
-        window.location.reload(false);
-      })
-      .catch(error => {
-        if(error.message === 'Failed to fetch') {
-          setTimeout(postReview, 10000);
-        }
-      });
-    };
+    fetch('http://localhost:1337/reviews/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(() => {
+      window.location.reload(false);
+    })
+    .catch(error => {
+      if(error.message === 'Failed to fetch') {
+        DBHelper.saveOfflineReview(formData)
+        offlineReview = formData;
+        setTimeout(postReview, 10000);
+      }
+    });
 
-    postReview();
     event.preventDefault();
   });
 
@@ -68,6 +77,28 @@ addMap = () => {
       }
     });
   }
+}
+
+postReview = () => {
+  fetch('http://localhost:1337/reviews/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(offlineReview)
+  })
+  .then(() => {
+    DBHelper.deleteOfflineReviewByRestaurantId(offlineReview.restaurant_id, (error) => {
+      if(!error) {
+        window.location.reload(false);
+      }
+    });
+  })
+  .catch(error => {
+    if(error.message === 'Failed to fetch') {
+      setTimeout(postReview, 10000);
+    }
+  });
 }
 
 /**

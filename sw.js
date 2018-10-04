@@ -18,7 +18,6 @@ self.addEventListener('fetch', event => {
   const request = event.request,
         url = new URL(request.url);
 
-  console.log(event);
   if(event.request.method === 'POST') {
   }
 

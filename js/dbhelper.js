@@ -3,6 +3,8 @@ let idbPromise = idb.open('restaurants', DATABASE_VERSION, (upgradeDB) => {
   switch (upgradeDB.oldVersion) {
     case 0:
       upgradeDB.createObjectStore('response-data');
+    case 1:
+      upgradeDB.createObjectStore('offline-review');
   }
 });
 
@@ -143,6 +145,43 @@ class DBHelper {
           callback('Restaurant does not exist', null);
         }
       }
+    });
+  }
+
+  static saveOfflineReview(reviewData) {
+    idbPromise.then((db) => {
+      const transaction = db.transaction('offline-review', 'readwrite'),
+        store = transaction.objectStore('offline-review');
+
+      store.put(reviewData, `review-${reviewData.restaurant_id}`);
+      return transaction.complete;
+    });
+  }
+
+  static getOfflineReviewByRestaurantId(id, callback) {
+    idbPromise.then((db) => {
+      const transaction = db.transaction('offline-review'),
+        store = transaction.objectStore('offline-review');
+
+      return store.get(`review-${id}`);
+    }).then((review) => {
+      if(review) {
+        callback(null, review);
+      } else {
+        callback('No offline reviews stored for this restaurant', null);
+      }
+    });
+  }
+
+  static deleteOfflineReviewByRestaurantId(id, callback) {
+    idbPromise.then((db) => {
+      const transaction = db.transaction('offline-review', 'readwrite'),
+        store = transaction.objectStore('offline-review');
+
+      store.delete(`review-${id}`);
+      return transaction.complete;
+    }).then(() => {
+      callback(null);
     });
   }
 
