@@ -43,7 +43,6 @@ addMap = () => {
  */
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
-    console.log(self.restaurant);
     callback(null, self.restaurant)
     return;
   }

@@ -106,27 +106,25 @@ class DBHelper {
 
         return store.get(`1337-json-reviews-${id}`);
       }).then((storedJson) => {
-        if(!storedJson) {
-          DBHelper.fetchReviewsById(id).then((fetchedJson) => {
-            if (fetchedJson.status) {
-              errorReporter(fetchedJson.status);
-              return;
-            }
+        DBHelper.fetchReviewsById(id).then((fetchedJson) => {
+          if (fetchedJson instanceof Error && storedJson) {
+            callback(null, storedJson);
+            return;
+          } else if(fetchedJson.status) {
+            errorReporter(fetchedJson.status);
+            return;
+          }
 
-            console.log(fetchedJson);
+          // If not offline, store and respond with the data received from the server
+          idbPromise.then((db) => {
+            const transaction = db.transaction('response-data', 'readwrite'),
+              store = transaction.objectStore('response-data');
 
-            idbPromise.then((db) => {
-              const transaction = db.transaction('response-data', 'readwrite'),
-                store = transaction.objectStore('response-data');
-
-              store.put(fetchedJson, `1337-json-reviews-${id}`);
-              return transaction.complete;
-            });
-            callback(null, fetchedJson);
+            store.put(fetchedJson, `1337-json-reviews-${id}`);
+            return transaction.complete;
           });
-        } else {
-          callback(null, storedJson);
-        }
+          callback(null, fetchedJson);
+        });
       });
     };
   /**
