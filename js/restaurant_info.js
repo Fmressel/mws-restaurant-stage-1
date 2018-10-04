@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fillBreadcrumb();
   });
 
-  document.getElementById('review-form').addEventListener('submit', (event) => {
+  document.getElementById('review-form').addEventListener('submit', event => {
     const form = event.target;
     const formData = {
       restaurant_id: self.restaurant.id,
