@@ -283,11 +283,11 @@ header h1 a {
   font-weight: 300;
   letter-spacing: -1px;
 }
-#reviews-list {
+#reviews-list, #offline-review-container {
   margin: 0;
   padding: 0;
 }
-#reviews-list li {
+#reviews-list li, #offline-review-container aside {
   background-color: #fff;
   display: block;
   list-style-type: none;
@@ -297,31 +297,32 @@ header h1 a {
   width: 85%;
   box-shadow: 0 0px 6px 0px #8080804d;
 }
-#reviews-list p {
+.review-container p {
   padding: 0 20px;
   margin: 0 0 10px;
 }
-#reviews-list li div {
+
+.review-container div {
   margin: 0 0 10px;
   padding: 10px;
   background-color: #252831;
 }
-#reviews-list .name, #reviews-list time {
+.review-container .name, .review-container time, .review-container .offline-review {
   display: inline-block;
   width: 50%;
   margin: 0;
   padding: 0;
   font-size: 0.9rem;
 }
-#reviews-list .name {
+.review-container .name {
   color: white;
   text-align: left;
 }
-#reviews-list time {
+.review-container time, .review-container .offline-review {
   color: grey;
   text-align: right;
 }
-#reviews-list .rating {
+.review-container .rating {
   float: right;
   margin: 20px;
   padding: 0 10px;

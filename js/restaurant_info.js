@@ -1,6 +1,7 @@
 let restaurant;
 let reviews;
 let offlineReview;
+let visibleOfflineReview = false;
 var map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -44,6 +45,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
       if(error.message === 'Failed to fetch') {
         DBHelper.saveOfflineReview(formData)
         offlineReview = formData;
+
+        createOfflineReviewHTML();
+
         setTimeout(postReview, 10000);
       }
     });
@@ -96,6 +100,11 @@ postReview = () => {
   })
   .catch(error => {
     if(error.message === 'Failed to fetch') {
+      if(!visibleOfflineReview) {
+        createOfflineReviewHTML();
+        visibleOfflineReview = true;
+      }
+
       setTimeout(postReview, 10000);
     }
   });
@@ -188,9 +197,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h3');
-  title.innerHTML = 'Reviews';
-  container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -203,6 +209,37 @@ fillReviewsHTML = (reviews = self.reviews) => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+}
+
+createOfflineReviewHTML = () => {
+  const container = document.getElementById('offline-review-container');
+  const reviewContainer = document.createElement('aside');
+  const nameStatus = document.createElement('div');
+  const name = document.createElement('p');
+  name.className = 'name';
+  name.innerHTML = offlineReview.name;
+  nameStatus.appendChild(name);
+
+  const status = document.createElement('p');
+  status.classList = 'offline-review';
+  status.innerHTML = 'Offline';
+  nameStatus.appendChild(status);
+
+  reviewContainer.appendChild(nameStatus);
+
+  const rating = document.createElement('p');
+  rating.className = 'rating';
+  rating.innerHTML = `Rating: ${offlineReview.rating}`;
+  reviewContainer.appendChild(rating);
+
+  const comments = document.createElement('p');
+  comments.className = 'comments';
+  comments.innerHTML = offlineReview.comments;
+  reviewContainer.appendChild(comments);
+
+  container.appendChild(reviewContainer);
+
+  visibleOfflineReview = true;
 }
 
 /**
