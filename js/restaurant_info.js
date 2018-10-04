@@ -9,7 +9,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
       return;
     }
     fillBreadcrumb();
-  })
+  });
+
+  document.getElementById('review-form').addEventListener('submit', (event) => {
+    const form = event.target;
+    const formData = {
+      restaurant_id: self.restaurant.id,
+      name: form[0].value,
+      rating: form[1].value,
+      comments: form[2].value
+    }
+
+    fetch('http://localhost:1337/reviews/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    event.preventDefault();
+    window.location.reload(false);
+  });
+
   setTimeout(addMap, 1200);
 });
 
