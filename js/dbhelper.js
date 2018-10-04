@@ -24,8 +24,13 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
+    const port = 1337; // Change this to your server port
     return `http://localhost:${port}/restaurants`;
+  }
+
+  static get REVIEWS_URL() {
+    const port = 1337;
+    return `http://localhost:${port}/reviews`;
   }
 
   /**
@@ -34,7 +39,20 @@ class DBHelper {
   static fetchRestaurants() {
     return fetch(DBHelper.DATABASE_URL).then((response) => {
       if(response.status === 200) {
-        return response.json().then((json) => json);
+        return response.json().then(json => json);
+      } else {
+        return response;
+      }
+    }).catch(error => error);
+  }
+
+  /**
+   * Fetch all reviews.
+   */
+  static fetchReviewsById(id) {
+    return fetch(`${DBHelper.REVIEWS_URL}/?restaurant_id=${id}`).then((response) => {
+      if(response.status === 200) {
+        return response.json().then(json => json);
       } else {
         return response;
       }
@@ -65,9 +83,45 @@ class DBHelper {
                 store = transaction.objectStore('response-data');
 
               store.put(fetchedJson, '1337-json');
+
               return transaction.complete;
             });
+            callback(null, fetchedJson);
+          });
+        } else {
+          callback(null, storedJson);
+        }
+      });
+    };
 
+  static getReviewsById(id, callback) {
+      const errorReporter = (status) => {
+        const error = `Request failed. Returned status of ${status}`;
+        callback(error, null);
+      }
+
+      idbPromise.then((db) => {
+        const transaction = db.transaction('response-data'),
+          store = transaction.objectStore('response-data');
+
+        return store.get(`1337-json-reviews-${id}`);
+      }).then((storedJson) => {
+        if(!storedJson) {
+          DBHelper.fetchReviewsById(id).then((fetchedJson) => {
+            if (fetchedJson.status) {
+              errorReporter(fetchedJson.status);
+              return;
+            }
+
+            console.log(fetchedJson);
+
+            idbPromise.then((db) => {
+              const transaction = db.transaction('response-data', 'readwrite'),
+                store = transaction.objectStore('response-data');
+
+              store.put(fetchedJson, `1337-json-reviews-${id}`);
+              return transaction.complete;
+            });
             callback(null, fetchedJson);
           });
         } else {

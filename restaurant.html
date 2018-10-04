@@ -46,6 +46,21 @@
       <!-- end restaurant -->
       <!-- Beginning reviews -->
       <section id="reviews-container">
+        <form action="http://localhost:1337/reviews/" method="POST">
+          <label for="restaurant-id">Restaurant</label>
+          <input id="restaurant-id" type="text" name="restaurant_id">
+
+          <label for="reviewer-name">Your name</label>
+          <input id="reviewer-name" type="text" name="name">
+
+          <label for="review-rating">Rating</label>
+          <input id="review-rating" type="number" name="rating">
+
+          <label for="review-comment">Comment</label>
+          <textarea id="review-comment" name="comments"></textarea>
+
+          <button type="submit">Submit review</button>
+        </form>
         <ul id="reviews-list"></ul>
       </section>
       <!-- End reviews -->

@@ -1,4 +1,5 @@
 let restaurant;
+let reviews;
 var map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -31,7 +32,7 @@ addMap = () => {
           center: restaurant.latlng,
           scrollwheel: false
         });
-        DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+        DBHelper.mapMarkerForRestaurant(restaurant, self.map);
       }
     });
   }
@@ -42,23 +43,35 @@ addMap = () => {
  */
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
+    console.log(self.restaurant);
     callback(null, self.restaurant)
     return;
   }
   const id = getParameterByName('id');
+
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
+
       if (!restaurant) {
         console.error(error);
         return;
       }
-      fillRestaurantHTML();
-      callback(null, restaurant)
+
+      DBHelper.getReviewsById(id, (error, reviews) => {
+        self.reviews = reviews;
+        if (!reviews) {
+          console.error(error);
+          return;
+        }
+        fillRestaurantHTML();
+        callback(null, restaurant)
+      });
     });
+
   }
 }
 
@@ -111,7 +124,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -142,8 +155,9 @@ createReviewHTML = (review) => {
   nameDate.appendChild(name);
 
   const date = document.createElement('time');
-  date.innerHTML = review.date;
-  date.setAttribute('datetime', review.date);
+  const dateData = new Date(review.updatedAt).toLocaleDateString('en-US', {day: 'numeric', year: 'numeric', month: 'short'});
+  date.innerHTML = dateData;
+  date.setAttribute('datetime', dateData);
   nameDate.appendChild(date);
 
   li.appendChild(nameDate);
