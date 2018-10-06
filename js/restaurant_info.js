@@ -19,8 +19,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     fillBreadcrumb();
+
+    fetch(`http://localhost:1337/restaurants/${self.restaurant.id}/?is_favorite=${self.restaurant.is_favorite}`, { method: 'PUT' });
+    toggleFavoriteButton();
   });
 
+  document.getElementById('favorite').addEventListener('click', () => {
+    self.restaurant.is_favorite = !self.restaurant.is_favorite;
+
+    fetch(`http://localhost:1337/restaurants/${self.restaurant.id}/?is_favorite=${self.restaurant.is_favorite}`, { method: 'PUT' });
+    DBHelper.updateRestaurantFavoriteById(self.restaurant.id, self.restaurant.is_favorite, (error) => {
+      if(!error) {
+        toggleFavoriteButton();
+      }
+    });
+  });
 
   document.getElementById('review-form').addEventListener('submit', event => {
     const form = event.target;
@@ -83,6 +96,11 @@ addMap = () => {
   }
 }
 
+function toggleFavoriteButton(restaurant = self.restaurant) {
+  button = document.getElementById('favorite');
+  button.innerHTML = restaurant.is_favorite ? 'Loved' : 'Love';
+}
+
 postReview = () => {
   fetch('http://localhost:1337/reviews/', {
     method: 'POST',
@@ -115,6 +133,7 @@ postReview = () => {
  */
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
+    console.log(self.restaurant);
     callback(null, self.restaurant)
     return;
   }

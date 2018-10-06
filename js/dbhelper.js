@@ -96,6 +96,16 @@ class DBHelper {
       });
     };
 
+  static updateRestaurants(restaurants) {
+    idbPromise.then((db) => {
+      const transaction = db.transaction('response-data', 'readwrite'),
+        store = transaction.objectStore('response-data');
+
+      store.put(restaurants, '1337-json');
+      return transaction.complete
+    });
+  }
+
   static getReviewsById(id, callback) {
       const errorReporter = (status) => {
         const error = `Request failed. Returned status of ${status}`;
@@ -144,6 +154,18 @@ class DBHelper {
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
         }
+      }
+    });
+  }
+
+  static updateRestaurantFavoriteById(id, favorite, callback) {
+    DBHelper.getRestaurants((error, restaurants) => {
+      if(error) {
+        callback(error);
+      } else {
+        restaurants[id - 1].is_favorite = favorite;
+        DBHelper.updateRestaurants(restaurants);
+        callback(null);
       }
     });
   }

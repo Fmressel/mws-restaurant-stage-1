@@ -250,6 +250,21 @@ header h1 a {
   text-transform: uppercase;
   line-height: 1.1;
 }
+#favorite {
+  display: block;
+  margin: 0 0 30px;
+  font-size: 1.1em;
+  background-color: #c93000;
+  color: white;
+  border: 0;
+  border-radius: 2px;
+  font-weight: bold;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+}
+#favorite:hover {
+  background-color: #3e80cf;
+}
 #restaurant-img {
   width: 90%;
 }
@@ -282,6 +297,50 @@ header h1 a {
   font-size: 2rem;
   font-weight: 300;
   letter-spacing: -1px;
+}
+#review-form-container {
+  width: 85%;
+  margin-bottom: 30px;
+  padding-bottom: 4px;
+  background-color: white;
+}
+#review-form-container h4 {
+  margin-bottom: 12px;
+  padding: 0 10px;
+  font-size: 1.8em;
+  line-height: 50px;
+  color: white;
+  background-color: #262832;
+}
+#review-form {
+  padding: 0 10px;
+  font-size: 1.2em;
+}
+#review-form button, #review-form label {
+  display: block;
+}
+#review-form input {
+  margin-bottom: 18px;
+}
+#review-form textarea {
+  width: 50%;
+}
+#review-form input, #review-form textarea {
+  font-size: 0.8em;
+}
+#review-form button {
+  margin: 10px 0;
+  padding: 0.3rem 1rem;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: white;
+  background-color: #c93000;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+#review-form button:hover {
+  background-color: #3e80cf;
 }
 #reviews-list, #offline-review-container {
   margin: 0;
@@ -360,7 +419,7 @@ header h1 a {
     box-shadow: 0 0 2px 0 black;
   }
 
-  #breadcrumb, #restaurant-info, #restaurant-container, #reviews-container, .inside #footer {
+  #breadcrumb, #restaurant-info, #restaurant-container, #reviews-container, #review-form-container, .inside #footer {
     width: initial;
   }
 
